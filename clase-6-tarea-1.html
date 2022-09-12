@@ -9,9 +9,13 @@
 </head>
 <body>
     <div id="inputs"></div>
-    <form>
-        <input type="button" value="calcular edades">
+    <form id="form" onsubmit="return false">
+        <input type="button" value="calcular edades" id="boton-calcular" >
+        <button type="reset" id="boton-reset">resetear</button>
     </form>
+    <div id="edad-mayor"></div>
+    <div id="edad-menor"></div>
+    <div id="promedio-edad"></div>
     <script src="../clase6-tareas/clase-6-tarea-1.js"></script>
 </body>
 </html>

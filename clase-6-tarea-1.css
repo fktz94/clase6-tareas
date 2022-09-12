@@ -4,3 +4,10 @@
     margin: 5px;
 }
 
+#edad-mayor,
+#edad-menor,
+#promedio-edad {
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
