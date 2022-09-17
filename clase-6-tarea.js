@@ -25,29 +25,30 @@ function clase6() {
 
     for (let i = 1; i <= miembrosDelGrupoFamiliar; i++) {
 
+        const divIntegrantes = document.createElement('div');
+        divIntegrantes.className = `div-integrantes-${i}`;
+        $divInputs.appendChild(divIntegrantes);
+
         const labelNombre = document.createElement('label');
         labelNombre.textContent = [i] + ') Nombre del familiar:';
         labelNombre.className = 'label-nombre';
-        $divInputs.appendChild(labelNombre);
+        divIntegrantes.appendChild(labelNombre);
 
         const inputNombre = document.createElement('input');
         inputNombre.type = 'text';
         inputNombre.className = 'input-nombre';
-        $divInputs.appendChild(inputNombre);
+        divIntegrantes.appendChild(inputNombre);
 
         const labelEdad = document.createElement('label');
         labelEdad.textContent = 'Edad: '
         labelEdad.className = 'label-edad';
-        $divInputs.appendChild(labelEdad);
+        divIntegrantes.appendChild(labelEdad);
 
         const inputEdad = document.createElement('input');
         inputEdad.type = 'number';
         inputEdad.className = 'input-edad';
         inputEdad.id = `input-edad-${i}`
-        $divInputs.appendChild(inputEdad);
-
-        const br = document.createElement('br');
-        $divInputs.appendChild(br);
+        divIntegrantes.appendChild(inputEdad);
     }
 
     const $botonCalcular = document.querySelector('#boton-calcular');
@@ -85,28 +86,37 @@ function clase6() {
 
 
     function crearBotones() {
-        const $divBotones = document.querySelector('.botones-salario');
         const $botonAgregar = document.getElementById('boton-agregar');
-        i = 0;
-
         $botonAgregar.onclick = function () {
-            i++;
-            const labelSalario = document.createElement('label');
-            labelSalario.textContent = 'Salario anual';
-            const inputSalario = document.createElement('input');
-            inputSalario.type = 'number';
-            inputSalario.id = `input-salario-${i}`;
-            $divInputs.appendChild(labelSalario);
-            $divInputs.appendChild(inputSalario);
-            console.log(inputSalario)
-            
+            for (let i = 1; i <= miembrosDelGrupoFamiliar; i++) {
+                const $divIntegrantes = document.querySelector(`.div-integrantes-${i}`);
+                const labelSalario = document.createElement('label');
+                labelSalario.textContent = 'Salario anual';
+                labelSalario.id = `label-salario-${i}`;
+                const inputSalario = document.createElement('input');
+                inputSalario.type = 'number';
+                inputSalario.id = `input-salario-${i}`;
+                $divIntegrantes.appendChild(labelSalario);
+                $divIntegrantes.appendChild(inputSalario);
+                console.log(inputSalario);
+            }
         }
-
-
     }
     crearBotones()
 
 
+    function eliminarSalario() {
+        const $botonQuitar = document.getElementById('boton-quitar');
+        $botonQuitar.onclick = function () {
+            for (let i = 1; i <= miembrosDelGrupoFamiliar; i++) {
+                const $inputSalario = document.getElementById(`input-salario-${i}`);
+                const $labelSalario = document.getElementById(`label-salario-${i}`);
+                $inputSalario.remove(); 
+                $labelSalario.remove(); 
+            }
+        }
+    }
+    eliminarSalario();
+
 }
 clase6();
-
