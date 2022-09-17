@@ -98,11 +98,45 @@ function clase6() {
                 inputSalario.id = `input-salario-${i}`;
                 $divIntegrantes.appendChild(labelSalario);
                 $divIntegrantes.appendChild(inputSalario);
-                console.log(inputSalario);
             }
+            arraySalario();
+        }
+        const $botonCalcularSalario = document.querySelector('#boton-calcular-salario')
+        $botonCalcularSalario.onclick = function(){
+            calcularMayorSalario();
+            calcularMenorSalario();
         }
     }
-    crearBotones()
+    crearBotones();
+
+    function arraySalario() {
+        const arraySalarios = [];
+        for (let i = 1; i <= miembrosDelGrupoFamiliar; i++) {
+            let salario = document.getElementById(`input-salario-${i}`).value;
+            arraySalarios.push(salario);
+        }
+        function calcularMayorSalario() {
+            let mayorSalario = arraySalarios[0];
+            for (let i = 0; i < arraySalarios.length; i++) {
+                if (arraySalario[i] > mayorSalario) {
+                    mayorSalario = arraySalario[i];
+                }
+            }
+            return mayorSalario;
+        }
+        function calcularMenorSalario() {
+            let menorSalario = arraySalarios[0];
+            for (let i = 0; i < arraySalarios.length; i++) {
+                if (arraySalarios[i] < menorSalario) {
+                    menorSalario = arraySalarios[i];
+                }
+            }
+            return menorSalario;
+        }
+        calcularMayorSalario();
+        calcularMenorSalario();
+    }
+
 
 
     function eliminarSalario() {
@@ -111,8 +145,8 @@ function clase6() {
             for (let i = 1; i <= miembrosDelGrupoFamiliar; i++) {
                 const $inputSalario = document.getElementById(`input-salario-${i}`);
                 const $labelSalario = document.getElementById(`label-salario-${i}`);
-                $inputSalario.remove(); 
-                $labelSalario.remove(); 
+                $inputSalario.remove();
+                $labelSalario.remove();
             }
         }
     }
