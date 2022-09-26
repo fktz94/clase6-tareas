@@ -10,26 +10,26 @@
 </head>
 
 <body>
-    <div id="inputs"></div>
-    <form id="form" onsubmit="return false">
-        <input type="button" value="calcular edades" id="boton-calcular">
-        <input type="reset" value="reset" id="boton-reset">
-        <input type="button" value="agregar salario" id="boton-agregar">
-        <input type="button" value="quitar salario" id="boton-quitar">
-        <input type="button" value="calcular salario" id="boton-calcular-salario">
+    <form id="form-cantidad-familiares">
+        <input type="number" id="cantidad-familiares">
+        <input type="button" value="Agregar familiares" id="agregar-familiares">
     </form>
-
+    <div id="familiares"></div>
+    <form id="form-botones" onsubmit="return false">
+        <input type="button" value="calcular edades" id="boton-calcular">
+        <input type="button" value="agregar salario" id="agregar-salario">
+        <input type="button" value="quitar salario" id="quitar-salario">
+        <input type="button" value="calcular salario" id="calcular-salario">
+        <input type="button" value="reset" id="boton-reset">
+    </form>
     <div id="edad-mayor"></div>
     <div id="edad-menor"></div>
-    <div id="promedio-edad"></div>
-
+    <div id="edad-promedio"></div>
     <div id="salario-mayor"></div>
     <div id="salario-menor"></div>
-    <div id="promedio-salario-anual"></div>
-    <div id="promedio-salario-mensual"></div>
-
+    <div id="salario-anual"></div>
+    <div id="salario-mensual"></div>
     <script src="./clase-6-tarea.js"></script>
 </body>
 
 </html>
-
