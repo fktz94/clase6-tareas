@@ -193,6 +193,7 @@ function calcularSalarioMayor(integrantes) {
     let mayorSalario = 0;
     for (let i = 0; i < integrantes; i++) {
         let salarios = Number(document.getElementById(`input-salario-${i + 1}`).value);
+        validarInputs(salarios);
         if (salarios > mayorSalario) {
             mayorSalario = salarios;
         }
@@ -211,6 +212,7 @@ function calcularSalarioMenor(integrantes) {
     for (let i = 0; i < integrantes; i++) {
         // ACÁ SE ME COMPLICÓ
         let salarios = document.getElementById(`input-salario-${i + 1}`);
+        validarInputs(salarios);
         menorSalario.push(salarios);
         a = menorSalario[i];
         if (a > menorSalario[i]) {
@@ -227,6 +229,7 @@ function calcularPromedios(integrantes) {
     function crearArraySalariosAnual() {
         for (let i = 0; i < integrantes; i++) {
             let $salarioIndividual = Number(document.getElementById(`input-salario-${i + 1}`).value);
+            validarInputs($salarioIndividual);
             if ($salarioIndividual == '') {
                 continue;
             }
