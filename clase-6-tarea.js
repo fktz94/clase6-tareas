@@ -19,73 +19,126 @@ Punto bonus: si hay inputs vacíos, ignorarlos en el cálculo (no contarlos como
 const $botonAgregarFamiliares = document.querySelector('#agregar-familiares');
 
 $botonAgregarFamiliares.onclick = function () {
-    let $integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
-    crearFamiliares($integrantesGrupoFamiliar);
+    let integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
+    borrarIntegrantesAnteriores(integrantesGrupoFamiliar);
+    crearFamiliares(integrantesGrupoFamiliar);
+
+    validarInputs(integrantesGrupoFamiliar);
 }
+
+function borrarIntegrantesAnteriores(integrantes) {
+    document.getElementById('edad-mayor').textContent = '';
+    document.getElementById('edad-menor').textContent = '';
+    document.getElementById('edad-promedio').textContent = '';
+    document.getElementById('salario-mayor').textContent = '';
+    document.getElementById('salario-menor').textContent = '';
+    document.getElementById('salario-anual').textContent = '';
+    document.getElementById('salario-mensual').textContent = '';
+    for (let i = 0; i < integrantes; i++) {
+        let divFamiliar = document.getElementById(`div-familiar-${i + 1}`);
+        if (divFamiliar) {
+            divFamiliar.remove();
+        }
+    }
+}
+
+
+function validarInputs(input) {
+    if (input == '') {   // CON EL "MAS O MENOS IGUAL (==)"" SI ME FUNCIONA, PERO CON EL "EXACTAMENTE IGUAL (===)" NO ME FUNCIONA. 
+        return ('Debe ingresar un número');
+    } else if (!/^[0-9]$/.test(input)) {
+        return ('Solo puedes ingresar números');
+    } else if (/^[0-9]+$/.test(input)) {
+        return ('Perfecto');
+    }
+}
+
 
 function crearFamiliares(integrantes) {
     const $divInputs = document.getElementById('familiares')
-    for (let i = 1; i <= integrantes; i++) {
+    for (let i = 0; i < integrantes; i++) {
         const divFamiliar = document.createElement('div');
-        divFamiliar.id = `div-familiar-${i}`;
+        divFamiliar.id = `div-familiar-${i + 1}`;
         const labelFamiliar = document.createElement('label');
-        labelFamiliar.textContent = `Edad del familiar #${i}`
+        labelFamiliar.textContent = `Edad del familiar #${i + 1}`
         const inputEdadFamiliar = document.createElement('input');
-        inputEdadFamiliar.type = 'number';
-        inputEdadFamiliar.id = `edad-familiar-${i}`;
+        inputEdadFamiliar.type = 'text';
+        inputEdadFamiliar.id = `edad-familiar-${i + 1}`;
         $divInputs.appendChild(divFamiliar);
         divFamiliar.appendChild(labelFamiliar);
         divFamiliar.appendChild(inputEdadFamiliar);
     }
 }
 
+
 const $botonCalcularEdades = document.getElementById('boton-calcular');
-
 $botonCalcularEdades.onclick = function () {
-    let $integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
+    let integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
 
-    calcularMayorEdad($integrantesGrupoFamiliar);
-    calcularMenorEdad($integrantesGrupoFamiliar);
-    calcularPromedioFamiliar($integrantesGrupoFamiliar);
+    calcularMayorEdad(integrantesGrupoFamiliar);
+    calcularMenorEdad(integrantesGrupoFamiliar);
+    calcularPromedioFamiliar(integrantesGrupoFamiliar);
 }
 function calcularMayorEdad(integrantes) {
     let mayorEdad = 0;
-    for (let i = 1; i <= integrantes; i++) {
-        let $edades = Number(document.getElementById(`edad-familiar-${i}`).value);
+    for (let i = 0; i < integrantes; i++) {
+        let $edades = Number(document.getElementById(`edad-familiar-${i + 1}`).value);
+        validarInputs($edades);
         if ($edades > mayorEdad) {
             mayorEdad = $edades;
         }
     }
-    document.getElementById('edad-mayor').textContent = `La edad mayor es ${mayorEdad}`
+    if (mayorEdad === 0) {
+        document.getElementById('edad-mayor').textContent = 'No ingresaste ninguna edad';
+    } else {
+        document.getElementById('edad-mayor').textContent = `La edad menor es ${mayorEdad}`;
+    }
 }
 function calcularMenorEdad(integrantes) {
-    let menorEdad = 999;
-    for (let i = 1; i <= integrantes; i++) {
-        let $edades = Number(document.getElementById(`edad-familiar-${i}`).value)
-        if ($edades < menorEdad) {
+    let menorEdad = 123456789; // ENCONTRAR ALGUNA MANERA MÁS ORGÁNICA DE SOLUCIONARLO
+    for (let i = 0; i < integrantes; i++) {
+        let $edades = Number(document.getElementById(`edad-familiar-${i + 1}`).value);
+        validarInputs($edades);
+        if ($edades <= 0) {
+            continue;
+        } else if ($edades < menorEdad) {
             menorEdad = $edades;
         }
     }
-    document.getElementById('edad-menor').textContent = `La edad menor es ${menorEdad}`
+    if (menorEdad === 123456789) {
+        null;
+    } else {
+        document.getElementById('edad-menor').textContent = `La edad menor es ${menorEdad}`;
+    }
 }
+
 function calcularPromedioFamiliar(integrantes) {
     let promedioEdadesArray = [];
-    for (let i = 1; i <= integrantes; i++) {
-        let $edades = Number(document.getElementById(`edad-familiar-${i}`).value)
+    for (let i = 0; i < integrantes; i++) {
+        let $edades = Number(document.getElementById(`edad-familiar-${i + 1}`).value)
+        validarInputs($edades);
+        if ($edades <= 0) {
+            continue;
+        }
         promedioEdadesArray.push($edades);
     }
-    let promedioEdades = 0;
-    for (let i = 0; i < promedioEdadesArray.length; i++) {
-        promedioEdades += promedioEdadesArray[i];
+    if (promedioEdadesArray == '') {
+        null;
+    } else {
+        let promedioEdades = 0;
+        for (let i = 0; i < promedioEdadesArray.length; i++) {
+            promedioEdades += promedioEdadesArray[i];
+        }
+        promedioEdades = promedioEdades / promedioEdadesArray.length
+        document.getElementById('edad-promedio').textContent = `La edad promedio es ${promedioEdades.toFixed()}`
     }
-    promedioEdades = promedioEdades / promedioEdadesArray.length
-    document.getElementById('edad-promedio').textContent = `La edad promedio es ${promedioEdades.toFixed()}`
 }
 
-const $botonReset = document.getElementById('boton-reset');
 
+
+const $botonReset = document.getElementById('boton-reset');
 $botonReset.onclick = function () {
-    let $integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
+    let integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
     document.getElementById('cantidad-familiares').value = '';
     document.getElementById('edad-mayor').textContent = '';
     document.getElementById('edad-menor').textContent = '';
@@ -94,70 +147,70 @@ $botonReset.onclick = function () {
     document.getElementById('salario-menor').textContent = '';
     document.getElementById('salario-anual').textContent = '';
     document.getElementById('salario-mensual').textContent = '';
-    for (let i = 1; i <= $integrantesGrupoFamiliar; i++) {
-        let divFamiliar = document.getElementById(`div-familiar-${i}`);
+    for (let i = 0; i < integrantesGrupoFamiliar; i++) {
+        let divFamiliar = document.getElementById(`div-familiar-${i + 1}`);
         divFamiliar.remove();
     }
 }
 
-const $botonAgregarSalario = document.getElementById('agregar-salario');
 
+const $botonAgregarSalario = document.getElementById('agregar-salario');
 $botonAgregarSalario.onclick = function () {
-    let $integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
-    for (let i = 1; i <= $integrantesGrupoFamiliar; i++) {
-        let divFamiliar = document.getElementById(`div-familiar-${i}`);
+    let integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
+    for (let i = 0; i < integrantesGrupoFamiliar; i++) {
+        let divFamiliar = document.getElementById(`div-familiar-${i + 1}`);
         let labelSalario = document.createElement('label');
         labelSalario.textContent = 'Salario anual:';
-        labelSalario.id = `label-salario-${i}`;
+        labelSalario.id = `label-salario-${i + 1}`;
         let inputSalario = document.createElement('input');
         inputSalario.type = 'number';
-        inputSalario.id = `input-salario-${i}`;
+        inputSalario.id = `input-salario-${i + 1}`;
         divFamiliar.appendChild(labelSalario);
         divFamiliar.appendChild(inputSalario);
     }
 }
 
 const $botonQuitarSalario = document.getElementById('quitar-salario');
-
 $botonQuitarSalario.onclick = function () {
-    let $integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
-    for (let i = 1; i <= $integrantesGrupoFamiliar; i++) {
-        let labelSalario = document.getElementById(`label-salario-${i}`);
+    let integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
+    for (let i = 0; i < integrantesGrupoFamiliar; i++) {
+        let labelSalario = document.getElementById(`label-salario-${i + 1}`);
         labelSalario.remove();
-        let inputSalario = document.getElementById(`input-salario-${i}`);
+        let inputSalario = document.getElementById(`input-salario-${i + 1}`);
         inputSalario.remove();
     }
 
 }
 
 const $botonCalcularSalario = document.getElementById('calcular-salario');
-
 $botonCalcularSalario.onclick = function () {
-    let $integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
-
-    calcularMayorSalario($integrantesGrupoFamiliar);
-
-    calcularPromedios($integrantesGrupoFamiliar);
-
+    let integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
+    calcularSalarioMayor(integrantesGrupoFamiliar);
+    calcularPromedios(integrantesGrupoFamiliar);
 }
 
-function calcularMayorSalario(integrantes) {
+function calcularSalarioMayor(integrantes) {
     let mayorSalario = 0;
-    for (let i = 1; i <= integrantes; i++) {
-        let salarios = Number(document.getElementById(`input-salario-${i}`).value);
+    for (let i = 0; i < integrantes; i++) {
+        let salarios = Number(document.getElementById(`input-salario-${i + 1}`).value);
         if (salarios > mayorSalario) {
             mayorSalario = salarios;
         }
     }
-    document.getElementById('salario-mayor').textContent = `El salario mayor es ${mayorSalario}`;
+    if (mayorSalario === 0) {
+        document.getElementById('salario-mayor').textContent = 'No ingresaste ningún salario';
+    } else {
+        document.getElementById('salario-mayor').textContent = `El salario mayor es $${mayorSalario}`;
+    }
+
 }
 
-function calcularMenorSalario(integrantes) {
+function calcularSalarioMenor(integrantes) {
     let menorSalario = [];
     let a;
-    for (let i = 1; i <= integrantes; i++) {
+    for (let i = 0; i < integrantes; i++) {
         // ACÁ SE ME COMPLICÓ
-        let salarios = document.getElementById(`input-salario-${i}`);
+        let salarios = document.getElementById(`input-salario-${i + 1}`);
         menorSalario.push(salarios);
         a = menorSalario[i];
         if (a > menorSalario[i]) {
@@ -171,188 +224,32 @@ function calcularMenorSalario(integrantes) {
 function calcularPromedios(integrantes) {
     let salarios = [];
     let sumaSalarios = 0;
-    function crearArrayAnual() {
-        for (let i = 1; i <= integrantes; i++) {
-            let $salarioIndividual = Number(document.getElementById(`input-salario-${i}`).value);
-
-            // if ($salarioIndividual == '') {
-            // ¿CÓMO RESOLVER QUE SI EL INPUT ESTÁ VACIO SE IGNORE?
-            // }
-            
+    function crearArraySalariosAnual() {
+        for (let i = 0; i < integrantes; i++) {
+            let $salarioIndividual = Number(document.getElementById(`input-salario-${i + 1}`).value);
+            if ($salarioIndividual == '') {
+                continue;
+            }
             salarios.push($salarioIndividual);
         }
     }
-    crearArrayAnual();
+    crearArraySalariosAnual();
     function promedioAnual() {
         for (let i = 0; i < salarios.length; i++) {
             sumaSalarios += salarios[i];
         }
     }
     promedioAnual();
-    let salarioAnual = sumaSalarios / salarios.length;
-    document.getElementById('salario-anual').textContent = `El promedio de los salarios anuales es de ${salarioAnual.toFixed(1)}`;
+    if (sumaSalarios === 0) {
+        null;
+    } else {
+        let salarioAnual = sumaSalarios / salarios.length;
+        document.getElementById('salario-anual').textContent = `El promedio de los salarios anuales es de $${salarioAnual.toFixed(1)}`;
 
-    let salarioMensual = salarioAnual / 12;
+        const MESES_EN_EL_ANIO = 12;
+        let salarioMensual = salarioAnual / MESES_EN_EL_ANIO;
 
-    document.getElementById('salario-mensual').textContent = `El promedio de los salarios mensuales es de ${salarioMensual.toFixed(1)}`;
-
+        document.getElementById('salario-mensual').textContent = `El promedio de los salarios mensuales es de $${salarioMensual.toFixed(1)}`;
+    }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// A PARTIR DE ACA ES LA RESOLUCION ANTIGÜA
-/*
-function clase6() {
-    const miembrosDelGrupoFamiliar = Number(prompt('¿cuantas personas hay en su grupo familiar?'));
-    const $divInputs = document.querySelector('#inputs');
-
-    for (let i = 1; i <= miembrosDelGrupoFamiliar; i++) {
-
-        const divIntegrantes = document.createElement('div');
-        divIntegrantes.className = `div-integrantes-${i}`;
-        $divInputs.appendChild(divIntegrantes);
-
-        const labelNombre = document.createElement('label');
-        labelNombre.textContent = [i] + ') Nombre del familiar:';
-        labelNombre.className = 'label-nombre';
-        divIntegrantes.appendChild(labelNombre);
-
-        const inputNombre = document.createElement('input');
-        inputNombre.type = 'text';
-        inputNombre.className = 'input-nombre';
-        divIntegrantes.appendChild(inputNombre);
-
-        const labelEdad = document.createElement('label');
-        labelEdad.textContent = 'Edad: '
-        labelEdad.className = 'label-edad';
-        divIntegrantes.appendChild(labelEdad);
-
-        const inputEdad = document.createElement('input');
-        inputEdad.type = 'number';
-        inputEdad.className = 'input-edad';
-        inputEdad.id = `input-edad-${i}`
-        divIntegrantes.appendChild(inputEdad);
-    }
-
-    const $botonCalcular = document.querySelector('#boton-calcular');
-    $botonCalcular.onclick = function () {
-
-        let arrayEdades = [];
-        let contadorEdades = 0;
-
-        for (let i = 1; i <= miembrosDelGrupoFamiliar; i++) {
-            let $inputEdad = Number(document.querySelector(`#input-edad-${i}`).value);
-            arrayEdades.push($inputEdad);
-
-            contadorEdades += Number(document.querySelector(`#input-edad-${i}`).value);
-        }
-        const mayor = Math.max(...arrayEdades);
-        const textMayor = document.createTextNode(`La edad mayor es ${mayor}`)
-        document.querySelector('#edad-mayor').appendChild(textMayor);
-
-        const menor = Math.min(...arrayEdades);
-        const textMenor = document.createTextNode(`La edad menor es ${menor}`)
-        document.querySelector('#edad-menor').appendChild(textMenor);
-
-        let promedio = contadorEdades / miembrosDelGrupoFamiliar;
-        promedio = promedio.toFixed()
-        const textPromedio = document.createTextNode(`La edad promedio del grupo familiar es ${promedio}`);
-        document.querySelector('#promedio-edad').appendChild(textPromedio);
-    }
-
-
-    function resetearTodo() {
-        document.getElementById('#inputs').textContent = null;
-    }
-    document.getElementById('form').addEventListener('reset', resetearTodo);
-
-
-
-    function crearBotones() {
-        const $botonAgregar = document.getElementById('boton-agregar');
-        $botonAgregar.onclick = function () {
-            for (let i = 1; i <= miembrosDelGrupoFamiliar; i++) {
-                const $divIntegrantes = document.querySelector(`.div-integrantes-${i}`);
-                const labelSalario = document.createElement('label');
-                labelSalario.textContent = 'Salario anual';
-                labelSalario.id = `label-salario-${i}`;
-                const inputSalario = document.createElement('input');
-                inputSalario.type = 'number';
-                inputSalario.id = `input-salario-${i}`;
-                $divIntegrantes.appendChild(labelSalario);
-                $divIntegrantes.appendChild(inputSalario);
-            }
-            arraySalario();
-        }
-        const $botonCalcularSalario = document.querySelector('#boton-calcular-salario')
-        $botonCalcularSalario.onclick = function(){
-            calcularMayorSalario();
-            calcularMenorSalario();
-        }
-    }
-    crearBotones();
-
-    function arraySalario() {
-        const arraySalarios = [];
-        for (let i = 1; i <= miembrosDelGrupoFamiliar; i++) {
-            let salario = document.getElementById(`input-salario-${i}`).value;
-            arraySalarios.push(salario);
-        }
-        function calcularMayorSalario() {
-            let mayorSalario = arraySalarios[0];
-            for (let i = 0; i < arraySalarios.length; i++) {
-                if (arraySalario[i] > mayorSalario) {
-                    mayorSalario = arraySalario[i];
-                }
-            }
-            return mayorSalario;
-        }
-        function calcularMenorSalario() {
-            let menorSalario = arraySalarios[0];
-            for (let i = 0; i < arraySalarios.length; i++) {
-                if (arraySalarios[i] < menorSalario) {
-                    menorSalario = arraySalarios[i];
-                }
-            }
-            return menorSalario;
-        }
-        calcularMayorSalario();
-        calcularMenorSalario();
-    }
-
-
-
-    function eliminarSalario() {
-        const $botonQuitar = document.getElementById('boton-quitar');
-        $botonQuitar.onclick = function () {
-            for (let i = 1; i <= miembrosDelGrupoFamiliar; i++) {
-                const $inputSalario = document.getElementById(`input-salario-${i}`);
-                const $labelSalario = document.getElementById(`label-salario-${i}`);
-                $inputSalario.remove();
-                $labelSalario.remove();
-            }
-        }
-    }
-    eliminarSalario();
-
-}
-clase6();
-*/
