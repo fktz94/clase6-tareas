@@ -163,7 +163,7 @@ $botonAgregarSalario.onclick = function () {
         labelSalario.textContent = 'Salario anual:';
         labelSalario.id = `label-salario-${i + 1}`;
         let inputSalario = document.createElement('input');
-        inputSalario.type = 'number';
+        inputSalario.type = 'text';
         inputSalario.id = `input-salario-${i + 1}`;
         divFamiliar.appendChild(labelSalario);
         divFamiliar.appendChild(inputSalario);
