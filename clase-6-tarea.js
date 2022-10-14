@@ -20,10 +20,15 @@ const $botonAgregarFamiliares = document.querySelector('#agregar-familiares');
 
 $botonAgregarFamiliares.onclick = function () {
     let integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
-    borrarIntegrantesAnteriores(integrantesGrupoFamiliar);
-    crearFamiliares(integrantesGrupoFamiliar);
-
     validarInputs(integrantesGrupoFamiliar);
+
+    if (Number(integrantesGrupoFamiliar)) {
+        borrarIntegrantesAnteriores(integrantesGrupoFamiliar);
+        crearFamiliares(integrantesGrupoFamiliar);
+    } else {
+        borrarIntegrantesAnteriores(integrantesGrupoFamiliar);
+        document.getElementById('edad-mayor').textContent = 'No ingresaste un número válido';
+    }
 }
 
 function borrarIntegrantesAnteriores(integrantes) {
@@ -136,7 +141,7 @@ function calcularPromedioFamiliar(integrantes) {
             promedioEdades += promedioEdadesArray[i];
         }
         promedioEdades = promedioEdades / promedioEdadesArray.length
-        document.getElementById('edad-promedio').textContent = `La edad promedio es ${promedioEdades.toFixed()}`
+        document.getElementById('edad-promedio').textContent = `La edad promedio es ${promedioEdades.toFixed(1)}`
     }
 }
 
@@ -285,7 +290,7 @@ function calcularPromedios(integrantes) {
         const MESES_EN_EL_ANIO = 12;
         let salarioMensual = salarioAnual / MESES_EN_EL_ANIO;
 
-        document.getElementById('salario-mensual').textContent = `El promedio de los salarios mensuales es de $${salarioMensual.toFixed(1)}`;
+        document.getElementById('salario-mensual').textContent = `El promedio de los salarios mensuales es de $${salarioMensual.toFixed(2)}`;
     }
 }
 
