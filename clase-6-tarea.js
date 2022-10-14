@@ -44,13 +44,12 @@ function borrarIntegrantesAnteriores(integrantes) {
 
 
 function validarInputs(input) {
-    if (input == '') {   // CON EL "MAS O MENOS IGUAL (==)"" SI ME FUNCIONA, PERO CON EL "EXACTAMENTE IGUAL (===)" NO ME FUNCIONA. 
+    if (input == '') {
         return ('Debe ingresar un número');
-    } else if (!/^[0-9]$/.test(input)) {
+    } else if (!/^[0-9]+$/.test(input)) {
         return ('Solo puedes ingresar números');
-    } else if (/^[0-9]+$/.test(input)) {
-        return ('Perfecto');
     }
+    return '';
 }
 
 
@@ -74,6 +73,12 @@ function crearFamiliares(integrantes) {
 const $botonCalcularEdades = document.getElementById('boton-calcular');
 $botonCalcularEdades.onclick = function () {
     let integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
+
+
+    document.getElementById('edad-mayor').textContent = '';
+    document.getElementById('edad-menor').textContent = '';
+    document.getElementById('edad-promedio').textContent = '';
+
 
     calcularMayorEdad(integrantesGrupoFamiliar);
     calcularMenorEdad(integrantesGrupoFamiliar);
@@ -106,7 +111,7 @@ function calcularMenorEdad(integrantes) {
         }
     }
     if (menorEdad === 123456789) {
-        null;
+        return null;
     } else {
         document.getElementById('edad-menor').textContent = `La edad menor es ${menorEdad}`;
     }
@@ -120,10 +125,11 @@ function calcularPromedioFamiliar(integrantes) {
         if ($edades <= 0) {
             continue;
         }
-        promedioEdadesArray.push($edades);
+        if ($edades)
+            promedioEdadesArray.push($edades);
     }
     if (promedioEdadesArray == '') {
-        null;
+        return null;
     } else {
         let promedioEdades = 0;
         for (let i = 0; i < promedioEdadesArray.length; i++) {
@@ -185,43 +191,67 @@ $botonQuitarSalario.onclick = function () {
 const $botonCalcularSalario = document.getElementById('calcular-salario');
 $botonCalcularSalario.onclick = function () {
     let integrantesGrupoFamiliar = Number(document.getElementById('cantidad-familiares').value);
+
+    document.getElementById('salario-mayor').textContent = '';
+    document.getElementById('salario-menor').textContent = '';
+    document.getElementById('salario-anual').textContent = '';
+    document.getElementById('salario-mensual').textContent = '';
+
     calcularSalarioMayor(integrantesGrupoFamiliar);
+    calcularSalarioMenor(integrantesGrupoFamiliar);
     calcularPromedios(integrantesGrupoFamiliar);
 }
 
 function calcularSalarioMayor(integrantes) {
-    let mayorSalario = 0;
+    let salarioMayor = 0;
     for (let i = 0; i < integrantes; i++) {
         let salarios = Number(document.getElementById(`input-salario-${i + 1}`).value);
         validarInputs(salarios);
-        if (salarios > mayorSalario) {
-            mayorSalario = salarios;
+        if (salarios > salarioMayor) {
+            salarioMayor = salarios;
         }
     }
-    if (mayorSalario === 0) {
+    if (salarioMayor === 0) {
         document.getElementById('salario-mayor').textContent = 'No ingresaste ningún salario';
     } else {
-        document.getElementById('salario-mayor').textContent = `El salario mayor es $${mayorSalario}`;
+        document.getElementById('salario-mayor').textContent = `El salario mayor es $${salarioMayor}`;
     }
 
 }
 
 function calcularSalarioMenor(integrantes) {
-    let menorSalario = [];
-    let a;
+    let arrayDeSalarios = [];
     for (let i = 0; i < integrantes; i++) {
-        // ACÁ SE ME COMPLICÓ
         let salarios = document.getElementById(`input-salario-${i + 1}`);
+        salarios = Number(salarios.value)
         validarInputs(salarios);
-        menorSalario.push(salarios);
-        a = menorSalario[i];
-        if (a > menorSalario[i]) {
-            a = menorSalario[i];
-            for (let i = 0; i < menorSalario.length; i++) {
+        if (isNaN(salarios)) {
+            continue;
+        }
+        if (salarios > 0) {
+            arrayDeSalarios.push(salarios);
+        }
+    }
+    let salarioMenor = 0;
+    for (let i = 0; i < arrayDeSalarios.length; i++) {
+        if (arrayDeSalarios.length === 1) {
+            salarioMenor = arrayDeSalarios[i];
+        } else {
+            for (let j = i; j < arrayDeSalarios.length; j++) {
+                if (arrayDeSalarios[j] < arrayDeSalarios[i]) {
+                    salarioMenor = arrayDeSalarios[j]
+                }
             }
         }
     }
+
+    document.getElementById('salario-menor').textContent = `El salario menor es $${salarioMenor}`;
+
+    if (salarioMenor === 0) {
+        document.getElementById('salario-menor').textContent = '';
+    }
 }
+
 
 function calcularPromedios(integrantes) {
     let salarios = [];
@@ -231,6 +261,9 @@ function calcularPromedios(integrantes) {
             let $salarioIndividual = Number(document.getElementById(`input-salario-${i + 1}`).value);
             validarInputs($salarioIndividual);
             if ($salarioIndividual == '') {
+                continue;
+            }
+            if (isNaN($salarioIndividual)) {
                 continue;
             }
             salarios.push($salarioIndividual);

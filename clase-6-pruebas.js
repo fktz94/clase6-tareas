@@ -5,11 +5,11 @@ function probarValidarInputs() {
     );
     console.assert(
         validarInputs(
-            'asdasd./sdas assasd') === 'Solo puedes ingresar números',
+            'asdasd./sdas +assasd') === 'Solo puedes ingresar números',
         'validarInputs no funcionó con un string de letras'
     );
     console.assert(
-        validarInputs(12) === 'Perfecto',
+        validarInputs(12) === '',
         'validarInputs no funcionó con un número válido'
     );
 
