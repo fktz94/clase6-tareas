@@ -26,7 +26,7 @@ $botonAgregarFamiliares.onclick = function () {
         borrarIntegrantesAnteriores(integrantesGrupoFamiliar);
         crearFamiliares(integrantesGrupoFamiliar);
     } else {
-        borrarIntegrantesAnteriores(integrantesGrupoFamiliar);
+        borrarIntegrantesAnteriores(150);
         document.getElementById('edad-mayor').textContent = 'No ingresaste un número válido';
     }
 }
