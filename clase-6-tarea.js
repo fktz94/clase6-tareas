@@ -115,6 +115,14 @@ function manejarErrores(errores, cantidadFamiliares) {
     keys.forEach(function (key) {
         console.log(errores[key]);
 
+        // HASTA ACA LLEGUE
+
+
+
+
+
+
+
     })
 
 
