@@ -1,16 +1,16 @@
 function probarValidarInputs() {
     console.assert(
-        validarInputs('') === 'Debe ingresar un número',
-        'validarInputs no funcionó con un string vacío'
+        validarInput('') === 'Debe ingresar un número',
+        'validarInput no funcionó con un string vacío'
     );
     console.assert(
-        validarInputs(
+        validarInput(
             'asdasd./sdas +assasd') === 'Solo puedes ingresar números',
-        'validarInputs no funcionó con un string de letras'
+        'validarInput no funcionó con un string de letras'
     );
     console.assert(
-        validarInputs(12) === '',
-        'validarInputs no funcionó con un número válido'
+        validarInput(12) === '',
+        'validarInput no funcionó con un número válido'
     );
 
 }
