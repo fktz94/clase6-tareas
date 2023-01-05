@@ -1,0 +1,28 @@
+{
+  "name": "clase6-tareas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "clase-6-tarea.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "empezar": "http-server",
+    "cypress-run": "cypress run",
+    "cypress-dev": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fktz94/clase6-tareas.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fktz94/clase6-tareas/issues"
+  },
+  "homepage": "https://github.com/fktz94/clase6-tareas#readme",
+  "dependencies": {
+    "bootstrap": "^5.2.3"
+  },
+  "devDependencies": {
+    "cypress": "^12.2.0"
+  }
+}
