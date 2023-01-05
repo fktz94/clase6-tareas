@@ -243,11 +243,11 @@ function calcularMenorEdad(integrantes) {
       continue;
     }
   }
-
-  document.getElementById(
-    "edad-menor"
-  ).textContent = `La edad menor es ${Math.min.apply(null, edades)}`;
-  // }
+  if (typeof edades[0] === "number") {
+    document.getElementById(
+      "edad-menor"
+    ).textContent = `La edad menor es ${Math.min.apply(null, edades)}`;
+  } // }
 }
 
 function calcularPromedioFamiliar(integrantes) {
@@ -298,6 +298,7 @@ $botonAgregarSalario.onclick = function () {
   let integrantesGrupoFamiliar = Number(
     document.getElementById("cantidad-familiares").value
   );
+
   for (let i = 0; i < integrantesGrupoFamiliar; i++) {
     let divFamiliar = document.getElementById(`div-familiar-${i + 1}`);
     let labelSalario = document.createElement("label");
@@ -306,6 +307,9 @@ $botonAgregarSalario.onclick = function () {
     let inputSalario = document.createElement("input");
     inputSalario.type = "text";
     inputSalario.id = `input-salario-${i + 1}`;
+    if (document.getElementById(`input-salario-${i + 1}`)) {
+      continue;
+    }
     divFamiliar.appendChild(labelSalario);
     divFamiliar.appendChild(inputSalario);
   }
