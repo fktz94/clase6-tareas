@@ -23,6 +23,7 @@
     "bootstrap": "^5.2.3"
   },
   "devDependencies": {
+    "@types/mocha": "^10.0.1",
     "cypress": "^12.2.0"
   }
 }
