@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/validar-form.css" />
+    <link
+      rel="stylesheet"
+      href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <title>Clase 6 - Tarea 1</title>
+  </head>
+
+  <body>
+    <form id="form-cantidad-familiares" onsubmit="return false">
+      <input
+        type="text"
+        id="cantidad-familiares"
+        data-test="cantidad-familiares"
+      />
+      <input
+        type="button"
+        value="Agregar familiares"
+        id="agregar-familiares"
+        data-test="agregar-familiares"
+      />
+      <label class="mensaje-error d-none" data-test="mensaje-error"
+        >Sólo se admiten números mayores que 0</label
+      >
+    </form>
+    <div id="familiares"></div>
+    <form id="form-botones" onsubmit="return false">
+      <input
+        type="button"
+        value="calcular edades"
+        id="boton-calcular"
+        data-test="calcular-edad"
+      />
+      <input type="button" value="agregar salario" id="agregar-salario" />
+      <input type="button" value="quitar salario" id="quitar-salario" />
+      <input type="button" value="calcular salario" id="calcular-salario" />
+      <input type="button" value="reset" id="boton-reset" />
+    </form>
+    <div class="container">
+      <div class="row">
+        <div class="col" id="edades" data-test="resultado-edades">
+          <div id="edad-mayor"></div>
+          <div id="edad-menor"></div>
+          <div id="edad-promedio"></div>
+        </div>
+        <div class="col" id="salarios">
+          <div id="salario-mayor"></div>
+          <div id="salario-menor"></div>
+          <div id="salario-anual"></div>
+          <div id="salario-mensual"></div>
+        </div>
+      </div>
+    </div>
+    <script src="./src/validar-form.js"></script>
+    <script src="./src/validar-form-pruebas.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>
